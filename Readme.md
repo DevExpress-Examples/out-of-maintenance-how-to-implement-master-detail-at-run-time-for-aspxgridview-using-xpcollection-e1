@@ -1,3 +1,10 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [Default.aspx](./CS/Q215883/Default.aspx) (VB: [Default.aspx.vb](./VB/Q215883/Default.aspx.vb))
+* [Default.aspx.cs](./CS/Q215883/Default.aspx.cs) (VB: [Default.aspx.vb](./VB/Q215883/Default.aspx.vb))
+* [Global.asax](./CS/Q215883/Global.asax) (VB: [Global.asax](./VB/Q215883/Global.asax))
+<!-- default file list end -->
 # How to implement master-detail at run-time for ASPxGridView using XPCollection
 
 
