@@ -1,9 +1,9 @@
-Imports Microsoft.VisualBasic
-Imports System
+﻿Imports System
 Imports DevExpress.Xpo
 
 Public Class Customer
 	Inherits XPObject
+
 	Public Sub New(ByVal session As Session)
 		MyBase.New(session)
 	End Sub
@@ -28,7 +28,7 @@ Public Class Customer
 		End Set
 	End Property
 
-	<Association("Customer-Orders", GetType(Order))> _
+	<Association("Customer-Orders", GetType(Order))>
 	Public ReadOnly Property Orders() As XPCollection(Of Order)
 		Get
 			Return GetCollection(Of Order)("Orders")
@@ -38,6 +38,7 @@ End Class
 
 Public Class Order
 	Inherits XPObject
+
 	Public Sub New(ByVal session As Session)
 		MyBase.New(session)
 	End Sub
@@ -63,7 +64,7 @@ Public Class Order
 	End Property
 
 	Private fCustomer As Customer
-	<Association("Customer-Orders")> _
+	<Association("Customer-Orders")>
 	Public Property Customer() As Customer
 		Get
 			Return fCustomer

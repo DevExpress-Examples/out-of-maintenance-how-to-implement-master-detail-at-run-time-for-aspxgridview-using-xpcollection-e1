@@ -1,69 +1,75 @@
-<%@ Application Language="vb" %>
+<%@ Application Language="C#" %>
 
 <script runat="server">
 
-	Sub Application_Start(ByVal sender As Object, ByVal e As EventArgs)
-		' Code that runs on application startup
-		CreateDataLayer()
-		CreateData()
-	End Sub
+    void Application_Start(object sender, EventArgs e) 
+    {
+        // Code that runs on application startup
+        CreateDataLayer();
+        CreateData();   
+    }
+    
+    void Application_End(object sender, EventArgs e) 
+    {
+        //  Code that runs on application shutdown
 
-	Sub Application_End(ByVal sender As Object, ByVal e As EventArgs)
-		'  Code that runs on application shutdown
+    }
+        
+    void Application_Error(object sender, EventArgs e) 
+    { 
+        // Code that runs when an unhandled error occurs
 
-	End Sub
+    }
 
-	Sub Application_Error(ByVal sender As Object, ByVal e As EventArgs)
-		' Code that runs when an unhandled error occurs
+    void Session_Start(object sender, EventArgs e) 
+    {
+        // Code that runs when a new session is started
 
-	End Sub
+    }
 
-	Sub Session_Start(ByVal sender As Object, ByVal e As EventArgs)
-		' Code that runs when a new session is started
+    void Session_End(object sender, EventArgs e) 
+    {
+        // Code that runs when a session ends. 
+        // Note: The Session_End event is raised only when the sessionstate mode
+        // is set to InProc in the Web.config file. If session mode is set to StateServer 
+        // or SQLServer, the event is not raised.
 
-	End Sub
+    }
 
-	Sub Session_End(ByVal sender As Object, ByVal e As EventArgs)
-		' Code that runs when a session ends. 
-		' Note: The Session_End event is raised only when the sessionstate mode
-		' is set to InProc in the Web.config file. If session mode is set to StateServer 
-		' or SQLServer, the event is not raised.
+    private static void CreateDataLayer() {
+        DevExpress.Xpo.Metadata.XPDictionary dict = new DevExpress.Xpo.Metadata.ReflectionDictionary();
+        dict.GetDataStoreSchema(typeof(Customer).Assembly);
+        DevExpress.Xpo.XpoDefault.Session = null;
+        DevExpress.Xpo.DB.IDataStore prov = new DevExpress.Xpo.DB.InMemoryDataStore(new System.Data.DataSet(),
+            DevExpress.Xpo.DB.AutoCreateOption.DatabaseAndSchema);
+        DevExpress.Xpo.XpoDefault.DataLayer = new DevExpress.Xpo.SimpleDataLayer(dict, prov);
+    }
 
-	End Sub
-
-	Private Shared Sub CreateDataLayer()
-		Dim dict As DevExpress.Xpo.Metadata.XPDictionary = New DevExpress.Xpo.Metadata.ReflectionDictionary()
-		dict.GetDataStoreSchema(GetType(Customer).Assembly)
-		DevExpress.Xpo.XpoDefault.Session = Nothing
-		Dim prov As DevExpress.Xpo.DB.IDataStore = New DevExpress.Xpo.DB.InMemoryDataStore(New System.Data.DataSet(), DevExpress.Xpo.DB.AutoCreateOption.DatabaseAndSchema)
-		DevExpress.Xpo.XpoDefault.DataLayer = New DevExpress.Xpo.SimpleDataLayer(dict, prov)
-	End Sub
-
-	Private Sub CreateData()
-		Using session As New DevExpress.Xpo.Session()
-			Dim customer As New Customer(session)
-			customer.Name = "John"
-			customer.Age = 21
-			customer.Save()
-			Dim order As New Order(session)
-			order.OrderName = "Chai"
-			order.OrderDate = New DateTime(2006, 5, 17)
-			order.Customer = customer
-			order.Save()
-			order = New Order(session)
-			order.OrderName = "Chang"
-			order.OrderDate = New DateTime(2006, 8, 23)
-			order.Customer = customer
-			order.Save()
-			customer = New Customer(session)
-			customer.Name = "Bob"
-			customer.Age = 37
-			customer.Save()
-			order = New Order(session)
-			order.OrderName = "Queso Cabrales"
-			order.OrderDate = New DateTime(2006, 2, 9)
-			order.Customer = customer
-			order.Save()
-		End Using
-	End Sub
+    private void CreateData() {
+        using (DevExpress.Xpo.Session session = new DevExpress.Xpo.Session()) {
+            Customer customer = new Customer(session);
+            customer.Name = "John";
+            customer.Age = 21;
+            customer.Save();
+            Order order = new Order(session);
+            order.OrderName = "Chai";
+            order.OrderDate = new DateTime(2006, 5, 17);
+            order.Customer = customer;
+            order.Save();
+            order = new Order(session);
+            order.OrderName = "Chang";
+            order.OrderDate = new DateTime(2006, 8, 23);
+            order.Customer = customer;
+            order.Save();
+            customer = new Customer(session);
+            customer.Name = "Bob";
+            customer.Age = 37;
+            customer.Save();
+            order = new Order(session);
+            order.OrderName = "Queso Cabrales";
+            order.OrderDate = new DateTime(2006, 2, 9);
+            order.Customer = customer;
+            order.Save();
+        }
+    }
 </script>
