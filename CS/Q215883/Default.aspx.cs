@@ -7,7 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-using DevExpress.Web.ASPxGridView;
+using DevExpress.Web;
 using DevExpress.Xpo;
 using DevExpress.Data.Filtering;
 
@@ -17,6 +17,7 @@ public partial class _Default : System.Web.UI.Page
     {
         Session fSession = new Session();
         ASPxGridView gv = new ASPxGridView();
+        gv.ID = "gridMaster";
         gv.DataSource = new XPCollection<Customer>(fSession);
         gv.SettingsDetail.ShowDetailRow = true;
         gv.SettingsDetail.ShowDetailButtons = true;
@@ -35,6 +36,7 @@ public class DetailRowTemplate : ITemplate {
     }
     public void InstantiateIn(Control container) {
         ASPxGridView detailGridView = new ASPxGridView();
+        detailGridView.ID = "gridDetail";
         detailGridView.SettingsDetail.IsDetailGrid = true;
         detailGridView.KeyFieldName = "Oid";
         detailGridView.BeforePerformDataSelect += new EventHandler(OnDetailViewBeforePerformDataSelect);
